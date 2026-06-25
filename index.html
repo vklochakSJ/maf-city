@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAF-CITY — Clan Wars</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      padding-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 70% 50%, rgba(208,2,27,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 640px; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--red);
+    }
+    .hero h1 { margin-bottom: 24px; }
+    .hero h1 span { color: var(--red); }
+    .hero-desc { font-size: 1.1rem; margin-bottom: 40px; max-width: 480px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-visual {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.08;
+      width: min(45vw, 480px);
+    }
+    .hero-visual img { width: 100%; }
+
+    /* Stats */
+    .stats-bar {
+      background: var(--black2);
+      border-top: 1px solid var(--gray2);
+      border-bottom: 1px solid var(--gray2);
+      padding: 32px 5%;
+      display: flex;
+      gap: 0;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid var(--gray2);
+      padding: 0 24px;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--red); }
+    .stat-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray3);
+      margin-top: 6px;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--gray2);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .feature-card {
+      background: var(--black2);
+      padding: 32px 28px;
+      transition: background 0.2s;
+    }
+    .feature-card:hover { background: var(--black3); }
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: rgba(208,2,27,0.15);
+      border: 1px solid rgba(208,2,27,0.3);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .feature-card p { font-size: 0.9rem; }
+
+    /* How it works */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex;
+      gap: 24px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--gray2);
+      position: relative;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gray2);
+      line-height: 1;
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+    .step-content h3 { margin-bottom: 8px; }
+    .step-content p { font-size: 0.9rem; }
+
+    /* CTA */
+    .cta-section {
+      background: var(--black2);
+      border-top: 1px solid var(--gray2);
+      border-bottom: 1px solid var(--gray2);
+      padding: 80px 5%;
+      text-align: center;
+    }
+    .cta-section h2 { margin-bottom: 16px; }
+    .cta-section p { margin-bottom: 32px; }
+
+    /* Footer */
+    footer {
+      padding: 32px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--gray2);
+      color: var(--gray3);
+      font-size: 0.85rem;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--white3);
+    }
+    .footer-logo img { width: 28px; opacity: 0.7; }
+
+    /* Auth tabs */
+    .auth-tabs { display: flex; border-bottom: 1px solid var(--gray2); margin-bottom: 24px; }
+    .auth-tab {
+      padding: 10px 20px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white3);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: -1px;
+    }
+    .auth-tab.active { color: var(--white); border-bottom-color: var(--red); }
+
+    @media (max-width: 768px) {
+      .hero-visual { display: none; }
+      .stats-bar { flex-wrap: wrap; gap: 16px; }
+      .stat-item { border-right: none; flex: 1 1 40%; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="index.html" class="navbar-logo">
+    <img src="assets/logo.jpg" alt="MAF-CITY logo" onerror="this.style.display='none'" />
+    <span>MAF<em>-</em>CITY</span>
+  </a>
+  <div class="navbar-nav" id="nav-actions">
+    <button class="btn btn-outline btn-sm" onclick="openModal('login')">Увійти</button>
+    <button class="btn btn-primary btn-sm" onclick="openModal('register')">Реєстрація</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-visual" aria-hidden="true">
+    <img src="assets/logo.jpg" alt="" />
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Clan Wars · Онлайн-спільнота</div>
+    <h1>Грай.<br />Будуй <span>клан</span>.<br />Перемагай.</h1>
+    <p class="hero-desc">MAF-CITY — платформа для гравців у мафію. Створюй клуби, набирай команду та змагайся з іншими кланами.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="openModal('register')">Приєднатись</button>
+      <button class="btn btn-outline" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Дізнатись більше</button>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num" id="stat-players">—</div>
+    <div class="stat-label">Гравців</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" id="stat-clubs">—</div>
+    <div class="stat-label">Клубів</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><span>∞</span></div>
+    <div class="stat-label">Партій</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><span>24</span>/7</div>
+    <div class="stat-label">Онлайн</div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="section-title">
+    <span class="accent-line"></span>
+    <h2>Можливості</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎭</div>
+      <h3>Профіль гравця</h3>
+      <p>Нік, статистика та приналежність до клубу — все в одному місці.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏰</div>
+      <h3>Клуби</h3>
+      <p>Створюй клуб, завантажуй лого та набирай членів зі спільноти.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚔️</div>
+      <h3>Clan Wars</h3>
+      <p>Змагайся з іншими кланами у турнірах і покажи хто справжній дон.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👑</div>
+      <h3>Адміністрування</h3>
+      <p>Приймай заявки до клубу, керуй учасниками та передавай права адміна.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-title">
+    <span class="accent-line"></span>
+    <h2>Як це працює</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h3>Реєструйся</h3>
+        <p>Створи акаунт з нікнеймом — він буде твоїм ім'ям у всій спільноті.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h3>Вступи або створи клуб</h3>
+        <p>Знайди клуб, який тобі підходить, і подай заявку. Або заснуй власний клан з унікальним лого.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h3>Грай</h3>
+        <p>Переходь у кабінет, грай та представляй свій клуб у кожній партії.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Готовий стати частиною мафії?</h2>
+  <p>Реєстрація займає менше хвилини</p>
+  <button class="btn btn-primary" onclick="openModal('register')">Створити акаунт</button>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">
+    <img src="assets/logo.jpg" alt="" onerror="this.style.display='none'" />
+    MAF-CITY
+  </div>
+  <div>© 2025 MAF-CITY · Clan Wars</div>
+</footer>
+
+<!-- Auth Modal -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Увійти</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Реєстрація</button>
+    </div>
+
+    <!-- Login form -->
+    <div id="form-login">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="твій@email.com" />
+        </div>
+        <div class="input-group">
+          <label>Пароль</label>
+          <input type="password" id="login-password" placeholder="••••••••" />
+        </div>
+        <button class="btn btn-primary btn-full mt-8" onclick="handleLogin()">Увійти</button>
+      </div>
+    </div>
+
+    <!-- Register form -->
+    <div id="form-register" class="hidden">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="input-group">
+          <label>Нікнейм</label>
+          <input type="text" id="reg-username" placeholder="МафіозоДон2025" />
+        </div>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="твій@email.com" />
+        </div>
+        <div class="input-group">
+          <label>Пароль</label>
+          <input type="password" id="reg-password" placeholder="мін. 6 символів" />
+        </div>
+        <button class="btn btn-primary btn-full mt-8" onclick="handleRegister()">Зареєструватись</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script type="module">
+import { supabase, toast } from './js/supabase.js';
+
+// Check if logged in → redirect to cabinet
+async function checkAuth() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    document.getElementById('nav-actions').innerHTML = `
+      <span style="font-family:var(--font-display);font-size:0.85rem;color:var(--white3);letter-spacing:0.05em;">Вітаємо!</span>
+      <a href="cabinet.html" class="btn btn-primary btn-sm">Кабінет</a>
+    `;
+    loadStats();
+  } else {
+    loadStats();
+  }
+}
+
+async function loadStats() {
+  const { count: players } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+  const { count: clubs } = await supabase.from('clubs').select('*', { count: 'exact', head: true });
+  document.getElementById('stat-players').textContent = players ?? 0;
+  document.getElementById('stat-clubs').textContent = clubs ?? 0;
+}
+
+window.openModal = (tab = 'login') => {
+  document.getElementById('auth-modal').classList.add('active');
+  switchTab(tab);
+};
+window.closeModal = () => document.getElementById('auth-modal').classList.remove('active');
+window.switchTab = (tab) => {
+  document.getElementById('form-login').classList.toggle('hidden', tab !== 'login');
+  document.getElementById('form-register').classList.toggle('hidden', tab !== 'register');
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+};
+
+window.handleLogin = async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) return toast('Заповни всі поля', 'error');
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) return toast('Помилка входу: ' + error.message, 'error');
+  toast('Вхід успішний!', 'success');
+  setTimeout(() => window.location.href = 'cabinet.html', 800);
+};
+
+window.handleRegister = async () => {
+  const username = document.getElementById('reg-username').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  if (!username || !email || !password) return toast('Заповни всі поля', 'error');
+  if (password.length < 6) return toast('Пароль мінімум 6 символів', 'error');
+
+  // Check username unique
+  const { data: existing } = await supabase.from('profiles').select('id').eq('username', username).single();
+  if (existing) return toast('Цей нік вже зайнятий', 'error');
+
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  if (error) return toast('Помилка реєстрації: ' + error.message, 'error');
+
+  // Create profile
+  const { error: profileError } = await supabase.from('profiles').insert({ id: data.user.id, username });
+  if (profileError) return toast('Профіль не створено: ' + profileError.message, 'error');
+
+  toast('Акаунт створено! Перевір email.', 'success');
+  setTimeout(() => window.location.href = 'cabinet.html', 1200);
+};
+
+// Close modal on overlay click
+document.getElementById('auth-modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+checkAuth();
+</script>
+</body>
+</html>
