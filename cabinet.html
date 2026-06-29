@@ -86,6 +86,7 @@
     <div class="sidebar-section">
       <div class="sidebar-label">Спільнота</div>
       <button class="sidebar-item" onclick="showTab('clubs')"><span class="icon">🔍</span> Знайти клуб</button>
+      <button class="sidebar-item" id="btn-club-members-nav" onclick="showTab('club-members')" style="display:none;"><span class="icon">👥</span> Мій клуб — склад</button>
     </div>
     <hr class="sidebar-divider" />
     <div class="sidebar-section" id="club-admin-section" style="display:none;">
@@ -105,6 +106,7 @@
         <span class="badge badge-red" id="site-requests-badge" style="margin-left:auto;display:none;"></span>
       </button>
       <button class="sidebar-item" onclick="showTab('all-clubs')"><span class="icon">📋</span> Всі клуби</button>
+      <button class="sidebar-item" onclick="showTab('all-players')"><span class="icon">👥</span> Всі гравці</button>
     </div>
   </aside>
 
@@ -161,9 +163,10 @@
           <div>
             <h3 id="my-club-name" style="font-size:1.4rem;margin-bottom:6px;color:#111;"></h3>
             <p id="my-club-desc" style="font-size:0.9rem;color:#555;margin-bottom:8px;"></p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
               <span class="badge" id="my-club-role-badge"></span>
               <span class="badge badge-gray" id="my-club-members-count"></span>
+              <button class="btn btn-outline btn-sm" onclick="showTab('club-members')">👥 Учасники</button>
             </div>
           </div>
         </div>
@@ -265,12 +268,33 @@
       </div>
     </div>
 
+    <!-- CLUB MEMBERS (visible to all club members) -->
+    <div class="tab-panel" id="tab-club-members">
+      <div class="page-header">
+        <div><h2 id="club-members-title">Учасники клубу</h2><p id="club-members-sub"></p></div>
+      </div>
+      <div id="club-members-list"></div>
+    </div>
+
     <!-- SITE ADMIN: All clubs -->
     <div class="tab-panel" id="tab-all-clubs">
       <div class="page-header">
         <div><h2>Всі клуби</h2><p>Керування всіма клубами сайту</p></div>
       </div>
       <div id="all-clubs-list"></div>
+    </div>
+
+    <!-- SITE ADMIN: All players -->
+    <div class="tab-panel" id="tab-all-players">
+      <div class="page-header">
+        <div><h2>Всі гравці</h2><p>Список всіх зареєстрованих гравців</p></div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <input type="text" id="players-search" placeholder="Пошук гравця..."
+          style="background:#F5F5F5;border:1.5px solid #DDDDDD;border-radius:var(--radius);padding:10px 16px;color:#111;font-size:0.95rem;outline:none;width:100%;max-width:360px;"
+          oninput="filterPlayers()" />
+      </div>
+      <div id="all-players-list"></div>
     </div>
 
   </main>
@@ -404,6 +428,7 @@ async function loadProfile() {
     document.getElementById('site-admin-divider').style.display = 'block';
     await loadSiteRequests();
     await loadAllClubs();
+    await loadAllPlayers();
   }
 
   await renderMyClubTab();
@@ -438,6 +463,9 @@ async function renderMyClubTab() {
     if (myClubRole !== 'owner') {
       document.getElementById('leave-club-zone').style.display = 'block';
     }
+    // Show club members nav for all club members
+    const navBtn = document.getElementById('btn-club-members-nav');
+    if (navBtn) navBtn.style.display = 'flex';
   } else if (pendingJoin) {
     noClub.style.display = 'none'; hasClub.style.display = 'block';
     document.getElementById('pending-notice').style.display = 'block';
@@ -452,9 +480,15 @@ async function renderMyClubTab() {
 }
 
 // ── Clubs grid ────────────────────────────────────────────────────────
+let clubMemberCounts = {};
+
 async function loadClubs() {
   const { data } = await supabase.from('clubs').select('*').order('created_at', { ascending: false });
   allClubs = data || [];
+  // Load member counts for all clubs
+  const { data: counts } = await supabase.from('club_members').select('club_id');
+  clubMemberCounts = {};
+  (counts || []).forEach(r => { clubMemberCounts[r.club_id] = (clubMemberCounts[r.club_id] || 0) + 1; });
   renderClubsGrid(allClubs);
 }
 
@@ -471,13 +505,17 @@ function renderClubsGrid(clubs) {
     if (isMyClub) actionBtn = `<span class="badge badge-green">Мій клуб</span>`;
     else if (!currentProfile?.club_id) actionBtn = `<button class="btn btn-outline btn-sm" onclick="applyToClub('${club.id}','${club.name}')">Вступити</button>`;
     else actionBtn = `<span class="badge badge-gray">В іншому клубі</span>`;
+    const memberCount = clubMemberCounts[club.id] || 0;
     return `<div class="club-card">
       <div class="club-card-header">
         <div class="club-card-logo">${logoHtml}</div>
         <div><h3>${club.name}</h3><div class="club-card-meta">${club.description || 'Без опису'}</div></div>
       </div>
       <hr class="divider" style="margin:12px 0;" />
-      <div class="club-card-footer">${actionBtn}</div>
+      <div class="club-card-footer">
+        <span class="text-sm" style="color:#888;">👥 ${memberCount} учасників</span>
+        ${actionBtn}
+      </div>
     </div>`;
   }).join('');
 }
@@ -772,6 +810,73 @@ window.showTab = (tab) => {
   document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
   document.getElementById(`tab-${tab}`)?.classList.add('active');
   document.querySelector(`[onclick="showTab('${tab}')"]`)?.classList.add('active');
+  if (tab === 'club-members') loadClubMembersTab();
+};
+
+// ── Club members (visible to all club members) ───────────────────────
+async function loadClubMembersTab() {
+  if (!myClub) return;
+  document.getElementById('club-members-title').textContent = `Учасники — ${myClub.name}`;
+  document.getElementById('club-members-sub').textContent = `Всі члени клубу ${myClub.name}`;
+  const { data } = await supabase.from('club_members')
+    .select('*, profiles(username)').eq('club_id', myClub.id).order('role');
+  const list = document.getElementById('club-members-list');
+  if (!data?.length) { list.innerHTML = `<div class="empty-state"><div class="icon">👥</div><h3>Немає учасників</h3></div>`; return; }
+  const roleLabels = { owner: '👑 Власник', moderator: '🛡️ Модератор', member: 'Учасник' };
+  const roleBadge = { owner: 'badge-owner', moderator: 'badge-moderator', member: 'badge-gray' };
+  list.innerHTML = `
+    <div style="margin-bottom:16px;color:#888;font-size:0.9rem;">Всього: ${data.length} учасників</div>` +
+    data.map(m => `
+    <div class="member-item">
+      <div class="member-left">
+        <div class="avatar" style="width:36px;height:36px;font-size:0.9rem;">${initials(m.profiles?.username)}</div>
+        <span style="font-family:var(--font-display);font-size:0.95rem;color:#111;">${m.profiles?.username}</span>
+        ${m.player_id === currentUser.id ? '<span class="badge badge-gray" style="font-size:0.65rem;">Ти</span>' : ''}
+      </div>
+      <span class="badge ${roleBadge[m.role]}">${roleLabels[m.role]}</span>
+    </div>`).join('');
+}
+
+// ── All players (site admin) ──────────────────────────────────────────
+let allPlayers = [];
+async function loadAllPlayers() {
+  const { data } = await supabase.from('profiles')
+    .select('*, clubs!profiles_club_id_fkey(name), club_members(role, club_id)')
+    .order('created_at', { ascending: false });
+  allPlayers = data || [];
+  renderPlayersList(allPlayers);
+}
+
+function renderPlayersList(players) {
+  const list = document.getElementById('all-players-list');
+  if (!players.length) { list.innerHTML = `<div class="empty-state"><div class="icon">👥</div><h3>Немає гравців</h3></div>`; return; }
+  const roleLabels = { owner: '👑 Власник', moderator: '🛡️ Модератор', member: 'Учасник' };
+  const roleBadge = { owner: 'badge-owner', moderator: 'badge-moderator', member: 'badge-gray' };
+  list.innerHTML = `<div style="margin-bottom:16px;color:#888;font-size:0.9rem;">Всього гравців: ${players.length}</div>` +
+    players.map(p => {
+      const clubRole = p.club_members?.[0]?.role;
+      const isSiteAdmin = p.site_role === 'site_admin';
+      return `<div class="member-item">
+        <div class="member-left">
+          <div class="avatar" style="width:36px;height:36px;font-size:0.9rem;">${initials(p.username)}</div>
+          <div>
+            <div style="font-family:var(--font-display);color:#111;font-size:0.95rem;">${p.username}</div>
+            <div class="text-sm" style="color:#888;">${p.clubs?.name ? `🏰 ${p.clubs.name}` : 'Без клубу'}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+          ${isSiteAdmin ? '<span class="badge badge-site-admin">⭐ Адмін сайту</span>' : ''}
+          ${clubRole ? `<span class="badge ${roleBadge[clubRole]}">${roleLabels[clubRole]}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+}
+
+window.filterPlayers = () => {
+  const q = document.getElementById('players-search').value.toLowerCase();
+  renderPlayersList(allPlayers.filter(p =>
+    p.username?.toLowerCase().includes(q) || p.clubs?.name?.toLowerCase().includes(q)
+  ));
 };
 
 window.handleSignOut = async () => { await supabase.auth.signOut(); window.location.href = 'index.html'; };
