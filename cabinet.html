@@ -137,11 +137,6 @@
           <button class="btn btn-primary" style="align-self:flex-start;" onclick="updateProfile()">Зберегти</button>
         </div>
       </div>
-      <div class="danger-zone">
-        <h3>⚠️ Небезпечна зона</h3>
-        <p class="text-sm" style="color:#888;margin-bottom:16px;">Покинути поточний клуб</p>
-        <button class="btn btn-danger btn-sm" onclick="confirmLeaveClub()">Покинути клуб</button>
-      </div>
     </div>
 
     <!-- MY CLUB -->
@@ -170,6 +165,14 @@
               <span class="badge" id="my-club-role-badge"></span>
               <span class="badge badge-gray" id="my-club-members-count"></span>
             </div>
+          </div>
+        </div>
+        <div class="danger-zone" id="leave-club-zone" style="display:none;">
+          <h3>⚠️ Покинути клуб</h3>
+          <p class="text-sm" style="color:#888;margin-bottom:16px;">Введи свій нік для підтвердження</p>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <input type="text" id="leave-confirm-input" placeholder="Твій нік..." style="background:#fff;border:1.5px solid #CCCCCC;border-radius:var(--radius);padding:10px 14px;color:#111;font-size:0.9rem;outline:none;flex:1;min-width:180px;" />
+            <button class="btn btn-danger btn-sm" onclick="confirmLeaveClub()">Покинути клуб</button>
           </div>
         </div>
         <div id="pending-notice" style="display:none;" class="card">
@@ -431,6 +434,10 @@ async function renderMyClubTab() {
     rb.className = 'badge ' + (myClubRole === 'owner' ? 'badge-owner' : myClubRole === 'moderator' ? 'badge-moderator' : 'badge-gray');
     const { count } = await supabase.from('club_members').select('*', { count: 'exact', head: true }).eq('club_id', myClub.id);
     document.getElementById('my-club-members-count').textContent = `${count} учасників`;
+    // Show leave button only for non-owners
+    if (myClubRole !== 'owner') {
+      document.getElementById('leave-club-zone').style.display = 'block';
+    }
   } else if (pendingJoin) {
     noClub.style.display = 'none'; hasClub.style.display = 'block';
     document.getElementById('pending-notice').style.display = 'block';
@@ -747,10 +754,12 @@ window.updateProfile = async () => {
   toast('Профіль оновлено!', 'success'); await loadProfile();
 };
 
-window.confirmLeaveClub = () => {
+window.confirmLeaveClub = async () => {
   if (!currentProfile?.club_id) return toast('Ти не в клубі', 'info');
   if (myClubRole === 'owner') return toast('Власник не може покинути клуб. Спочатку передай права.', 'error');
-  showConfirm('Покинути клуб?', 'Ти більше не будеш учасником цього клубу.', async () => {
+  const input = document.getElementById('leave-confirm-input').value.trim();
+  if (input !== currentProfile.username) return toast('Нік введено невірно', 'error');
+  showConfirm('Точно покинути клуб?', `Ти виходиш з клубу «${myClub?.name}». Цю дію не можна скасувати.`, async () => {
     await supabase.from('club_members').delete().eq('club_id', currentProfile.club_id).eq('player_id', currentUser.id);
     await supabase.from('profiles').update({ club_id: null }).eq('id', currentUser.id);
     toast('Ти покинув клуб', 'info'); await loadProfile(); await loadClubs();
