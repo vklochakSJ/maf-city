@@ -6,19 +6,17 @@
   <title>Кабінет — MAF-CITY</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body { padding-top: 64px; }
+    body { padding-top: 64px; background: #FFFFFF; }
 
-    /* Layout */
     .cabinet-layout {
       display: grid;
       grid-template-columns: 240px 1fr;
       min-height: calc(100vh - 64px);
     }
 
-    /* Sidebar */
     .sidebar {
-      background: var(--black2);
-      border-right: 1px solid var(--gray2);
+      background: #F5F5F5;
+      border-right: 1px solid #DDDDDD;
       padding: 24px 0;
       position: sticky;
       top: 64px;
@@ -31,7 +29,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--gray3);
+      color: #AAAAAA;
       padding: 8px 8px 4px;
     }
     .sidebar-item {
@@ -40,7 +38,7 @@
       gap: 10px;
       padding: 10px 12px;
       border-radius: var(--radius);
-      color: var(--white3);
+      color: #555555;
       font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.15s;
@@ -49,19 +47,16 @@
       width: 100%;
       text-align: left;
     }
-    .sidebar-item:hover { background: var(--gray); color: var(--white); }
-    .sidebar-item.active { background: rgba(208,2,27,0.15); color: var(--white); border-left: 2px solid var(--red); }
+    .sidebar-item:hover { background: #EEEEEE; color: #111111; }
+    .sidebar-item.active { background: rgba(208,2,27,0.08); color: #111111; border-left: 2px solid var(--red); }
     .sidebar-item .icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
-    .sidebar-divider { border: none; border-top: 1px solid var(--gray2); margin: 12px 16px; }
+    .sidebar-divider { border: none; border-top: 1px solid #DDDDDD; margin: 12px 16px; }
 
-    /* Main */
-    .cabinet-main { padding: 32px; overflow-y: auto; }
+    .cabinet-main { padding: 32px; background: #FFFFFF; }
 
-    /* Tab panels */
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* Page header */
     .page-header {
       display: flex;
       align-items: flex-start;
@@ -70,13 +65,12 @@
       flex-wrap: wrap;
       gap: 16px;
     }
-    .page-header h2 { margin-bottom: 4px; }
-    .page-header p { font-size: 0.9rem; color: var(--gray3); }
+    .page-header h2 { margin-bottom: 4px; color: #111111; }
+    .page-header p { font-size: 0.9rem; color: #888888; }
 
-    /* Profile card */
     .profile-hero {
-      background: var(--black2);
-      border: 1px solid var(--gray2);
+      background: #F5F5F5;
+      border: 1px solid #DDDDDD;
       border-radius: var(--radius-lg);
       padding: 32px;
       display: flex;
@@ -93,16 +87,12 @@
       height: 3px;
       background: var(--red);
     }
-    .profile-info h3 {
-      font-size: 1.6rem;
-      margin-bottom: 6px;
-    }
+    .profile-info h3 { font-size: 1.6rem; margin-bottom: 6px; color: #111111; }
     .profile-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
 
-    /* Club card */
     .club-hero {
-      background: var(--black2);
-      border: 1px solid var(--gray2);
+      background: #F5F5F5;
+      border: 1px solid #DDDDDD;
       border-radius: var(--radius-lg);
       padding: 28px;
       display: flex;
@@ -113,8 +103,8 @@
     .club-logo {
       width: 72px; height: 72px;
       border-radius: var(--radius-lg);
-      background: var(--gray);
-      border: 2px solid var(--gray2);
+      background: #EEEEEE;
+      border: 2px solid #DDDDDD;
       object-fit: cover;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.8rem;
@@ -123,84 +113,75 @@
     }
     .club-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Requests list */
     .request-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 14px 18px;
-      background: var(--black2);
-      border: 1px solid var(--gray2);
+      background: #F5F5F5;
+      border: 1px solid #DDDDDD;
       border-radius: var(--radius);
       margin-bottom: 8px;
       gap: 12px;
     }
-    .request-item:last-child { margin-bottom: 0; }
     .request-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
-    /* Members list */
     .member-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 12px 18px;
-      background: var(--black2);
-      border: 1px solid var(--gray2);
+      background: #F5F5F5;
+      border: 1px solid #DDDDDD;
       border-radius: var(--radius);
       margin-bottom: 8px;
     }
     .member-left { display: flex; align-items: center; gap: 12px; }
 
-    /* Clubs explore */
     .clubs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 16px;
     }
     .club-card {
-      background: var(--black2);
-      border: 1px solid var(--gray2);
+      background: #F5F5F5;
+      border: 1px solid #DDDDDD;
       border-radius: var(--radius-lg);
       padding: 20px;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .club-card:hover { border-color: var(--gray3); }
+    .club-card:hover { border-color: #AAAAAA; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .club-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
     .club-card-logo {
       width: 48px; height: 48px;
       border-radius: var(--radius);
-      background: var(--gray);
+      background: #EEEEEE;
       overflow: hidden;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.2rem;
       flex-shrink: 0;
     }
     .club-card-logo img { width: 100%; height: 100%; object-fit: cover; }
-    .club-card h3 { font-size: 1rem; margin-bottom: 2px; }
-    .club-card-meta { font-size: 0.8rem; color: var(--gray3); }
+    .club-card h3 { font-size: 1rem; margin-bottom: 2px; color: #111111; }
+    .club-card-meta { font-size: 0.8rem; color: #888888; }
     .club-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
 
-    /* Empty state */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
-      color: var(--gray3);
+      color: #AAAAAA;
     }
     .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
-    .empty-state h3 { color: var(--white3); margin-bottom: 8px; }
+    .empty-state h3 { color: #555555; margin-bottom: 8px; }
 
-    /* Transfer admin */
     .danger-zone {
-      border: 1px solid rgba(208,2,27,0.3);
+      border: 1px solid rgba(208,2,27,0.25);
       border-radius: var(--radius-lg);
       padding: 24px;
       margin-top: 24px;
+      background: rgba(208,2,27,0.03);
     }
-    .danger-zone h3 {
-      color: var(--red-light);
-      margin-bottom: 8px;
-      font-size: 1rem;
-    }
+    .danger-zone h3 { color: var(--red); margin-bottom: 8px; font-size: 1rem; }
 
     @media (max-width: 900px) {
       .cabinet-layout { grid-template-columns: 1fr; }
@@ -211,7 +192,7 @@
         overflow-x: auto;
         padding: 8px 0;
         border-right: none;
-        border-bottom: 1px solid var(--gray2);
+        border-bottom: 1px solid #DDDDDD;
       }
       .sidebar-section { display: flex; gap: 4px; padding: 0 8px; }
       .sidebar-label { display: none; }
@@ -222,20 +203,18 @@
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
   <a href="index.html" class="navbar-logo">
     <img src="assets/logo.jpg" alt="MAF-CITY" onerror="this.style.display='none'" />
     <span>MAF<em>-</em>CITY</span>
   </a>
   <div class="navbar-nav">
-    <span id="nav-username" style="font-family:var(--font-display);font-size:0.85rem;color:var(--white3);letter-spacing:0.05em;"></span>
+    <span id="nav-username" style="font-family:var(--font-display);font-size:0.85rem;color:#555;letter-spacing:0.05em;"></span>
     <button class="btn btn-outline btn-sm" onclick="handleSignOut()">Вийти</button>
   </div>
 </nav>
 
 <div class="cabinet-layout">
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Головне</div>
@@ -264,34 +243,28 @@
         <span class="icon">👥</span> Учасники
       </button>
       <button class="sidebar-item" onclick="showTab('club-settings')">
-        <span class="icon">⚙️</span> Налаштування клубу
+        <span class="icon">⚙️</span> Налаштування
       </button>
     </div>
   </aside>
 
-  <!-- Main content -->
   <main class="cabinet-main">
 
-    <!-- PROFILE TAB -->
+    <!-- PROFILE -->
     <div class="tab-panel active" id="tab-profile">
       <div class="page-header">
-        <div>
-          <h2>Мій профіль</h2>
-          <p>Твій акаунт у спільноті MAF-CITY</p>
-        </div>
+        <div><h2>Мій профіль</h2><p>Твій акаунт у спільноті MAF-CITY</p></div>
       </div>
-
       <div class="profile-hero">
         <div class="avatar avatar-lg" id="profile-avatar">??</div>
         <div class="profile-info">
           <h3 id="profile-username">Завантаження...</h3>
           <div class="profile-meta">
-            <span class="badge badge-gray" id="profile-club-badge" style="display:none;"></span>
-            <span class="text-sm text-muted" id="profile-email"></span>
+            <span class="badge badge-red" id="profile-club-badge" style="display:none;"></span>
+            <span class="text-sm" style="color:#888;" id="profile-email"></span>
           </div>
         </div>
       </div>
-
       <div class="card">
         <h3 style="margin-bottom:20px;">Редагувати профіль</h3>
         <div style="display:flex;flex-direction:column;gap:16px;max-width:400px;">
@@ -302,24 +275,18 @@
           <button class="btn btn-primary" style="align-self:flex-start;" onclick="updateProfile()">Зберегти</button>
         </div>
       </div>
-
-      <div class="card mt-24">
-        <h3 style="margin-bottom:8px;color:var(--red-light);">Небезпечна зона</h3>
-        <p class="text-sm text-muted" style="margin-bottom:16px;">Ця дія незворотня</p>
+      <div class="danger-zone mt-24">
+        <h3>⚠️ Небезпечна зона</h3>
+        <p class="text-sm" style="color:#888;margin-bottom:16px;">Покинути поточний клуб</p>
         <button class="btn btn-danger btn-sm" onclick="confirmLeaveClub()">Покинути клуб</button>
       </div>
     </div>
 
-    <!-- MY CLUB TAB -->
+    <!-- MY CLUB -->
     <div class="tab-panel" id="tab-my-club">
       <div class="page-header">
-        <div>
-          <h2>Мій клуб</h2>
-          <p>Інформація про клуб до якого ти належиш</p>
-        </div>
+        <div><h2>Мій клуб</h2><p>Інформація про клуб до якого ти належиш</p></div>
       </div>
-
-      <!-- No club state -->
       <div id="no-club-state">
         <div class="empty-state">
           <div class="icon">🏰</div>
@@ -331,80 +298,61 @@
           </div>
         </div>
       </div>
-
-      <!-- Has club state -->
       <div id="has-club-state" style="display:none;">
         <div class="club-hero">
           <div class="club-logo" id="my-club-logo">🏰</div>
           <div>
-            <h3 id="my-club-name" style="font-size:1.4rem;margin-bottom:6px;"></h3>
+            <h3 id="my-club-name" style="font-size:1.4rem;margin-bottom:6px;color:#111;"></h3>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <span class="badge badge-gray" id="my-club-role"></span>
               <span class="badge badge-red" id="my-club-members-count"></span>
             </div>
           </div>
         </div>
-
-        <!-- Pending request notice -->
-        <div id="pending-notice" style="display:none;" class="card" style="border-color:rgba(208,2,27,0.3);">
-          <p>⏳ Твоя заявка на вступ до клубу <strong id="pending-club-name"></strong> очікує розгляду адміністратором.</p>
+        <div id="pending-notice" style="display:none;" class="card">
+          <p>⏳ Твоя заявка до клубу <strong id="pending-club-name"></strong> очікує розгляду.</p>
           <button class="btn btn-outline btn-sm mt-16" onclick="cancelRequest()">Скасувати заявку</button>
         </div>
       </div>
     </div>
 
-    <!-- CLUBS EXPLORE TAB -->
+    <!-- CLUBS EXPLORE -->
     <div class="tab-panel" id="tab-clubs">
       <div class="page-header">
-        <div>
-          <h2>Знайти клуб</h2>
-          <p>Переглянь усі клуби спільноти</p>
-        </div>
+        <div><h2>Знайти клуб</h2><p>Переглянь усі клуби спільноти</p></div>
         <button class="btn btn-primary" onclick="openCreateClubModal()">+ Створити клуб</button>
       </div>
-
       <div style="margin-bottom:20px;">
-        <input type="text" id="club-search" placeholder="Пошук клубу..." style="background:var(--black2);border:1.5px solid var(--gray2);border-radius:var(--radius);padding:10px 16px;color:var(--white);font-size:0.95rem;outline:none;width:100%;max-width:360px;" oninput="filterClubs()" />
+        <input type="text" id="club-search" placeholder="Пошук клубу..."
+          style="background:#F5F5F5;border:1.5px solid #DDDDDD;border-radius:var(--radius);padding:10px 16px;color:#111;font-size:0.95rem;outline:none;width:100%;max-width:360px;"
+          oninput="filterClubs()" />
       </div>
-
-      <div class="clubs-grid" id="clubs-grid">
-        <!-- populated by JS -->
-      </div>
+      <div class="clubs-grid" id="clubs-grid"></div>
     </div>
 
-    <!-- REQUESTS TAB (admin) -->
+    <!-- REQUESTS (admin) -->
     <div class="tab-panel" id="tab-requests">
       <div class="page-header">
-        <div>
-          <h2>Заявки до клубу</h2>
-          <p>Розгляд заявок на вступ</p>
-        </div>
+        <div><h2>Заявки до клубу</h2><p>Розгляд заявок на вступ</p></div>
       </div>
       <div id="requests-list">
         <div class="empty-state"><div class="icon">📬</div><h3>Немає нових заявок</h3></div>
       </div>
     </div>
 
-    <!-- MEMBERS TAB (admin) -->
+    <!-- MEMBERS (admin) -->
     <div class="tab-panel" id="tab-members">
       <div class="page-header">
-        <div>
-          <h2>Учасники клубу</h2>
-          <p>Всі члени твого клубу</p>
-        </div>
+        <div><h2>Учасники клубу</h2><p>Всі члени твого клубу</p></div>
       </div>
       <div id="members-list"></div>
     </div>
 
-    <!-- CLUB SETTINGS TAB (admin) -->
+    <!-- CLUB SETTINGS (admin) -->
     <div class="tab-panel" id="tab-club-settings">
       <div class="page-header">
-        <div>
-          <h2>Налаштування клубу</h2>
-          <p>Редагуй інформацію клубу</p>
-        </div>
+        <div><h2>Налаштування клубу</h2><p>Редагуй інформацію клубу</p></div>
       </div>
-
       <div class="card" style="max-width:480px;">
         <h3 style="margin-bottom:20px;">Основне</h3>
         <div style="display:flex;flex-direction:column;gap:16px;">
@@ -413,7 +361,7 @@
               <span>📷</span>
             </div>
             <div>
-              <p class="text-sm" style="margin-bottom:6px;">Лого клубу</p>
+              <p class="text-sm" style="margin-bottom:6px;color:#555;">Лого клубу</p>
               <button class="btn btn-ghost btn-sm" onclick="document.getElementById('settings-logo-input').click()">Змінити</button>
               <input type="file" id="settings-logo-input" accept="image/*" style="display:none" onchange="previewSettingsLogo(event)" />
             </div>
@@ -425,12 +373,11 @@
           <button class="btn btn-primary" style="align-self:flex-start;" onclick="saveClubSettings()">Зберегти зміни</button>
         </div>
       </div>
-
       <div class="danger-zone">
         <h3>⚠️ Передати права адміна</h3>
-        <p class="text-sm text-muted" style="margin-bottom:16px;">Вибери учасника якому передати адміністрування клубу. Ти втратиш права адміна.</p>
+        <p class="text-sm" style="color:#888;margin-bottom:16px;">Вибери учасника якому передати адміністрування. Ти втратиш права адміна.</p>
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-          <select id="transfer-select" style="background:var(--black2);border:1.5px solid var(--gray2);border-radius:var(--radius);padding:10px 14px;color:var(--white);font-size:0.9rem;flex:1;min-width:180px;outline:none;">
+          <select id="transfer-select" style="background:#FFF;border:1.5px solid #CCCCCC;border-radius:var(--radius);padding:10px 14px;color:#111;font-size:0.9rem;flex:1;min-width:180px;outline:none;">
             <option value="">— Вибери учасника —</option>
           </select>
           <button class="btn btn-danger btn-sm" onclick="transferAdmin()">Передати</button>
@@ -452,7 +399,7 @@
           <span style="font-size:1.5rem;">🏰</span>
         </div>
         <div>
-          <p class="text-sm" style="margin-bottom:6px;">Лого клубу (необов'язково)</p>
+          <p class="text-sm" style="margin-bottom:6px;color:#555;">Лого клубу (необов'язково)</p>
           <button class="btn btn-ghost btn-sm" onclick="document.getElementById('new-club-logo-input').click()">Завантажити</button>
           <input type="file" id="new-club-logo-input" accept="image/*" style="display:none" onchange="previewNewClubLogo(event)" />
         </div>
@@ -466,11 +413,11 @@
   </div>
 </div>
 
-<!-- Confirm modal -->
+<!-- Confirm Modal -->
 <div class="modal-overlay" id="confirm-modal">
   <div class="modal" style="max-width:380px;">
     <div class="modal-title" id="confirm-title">Підтвердження</div>
-    <p id="confirm-text" style="margin-bottom:24px;"></p>
+    <p id="confirm-text" style="margin-bottom:24px;color:#555;"></p>
     <div style="display:flex;gap:12px;">
       <button class="btn btn-danger" style="flex:1;" id="confirm-ok">Підтвердити</button>
       <button class="btn btn-ghost" style="flex:1;" onclick="closeConfirm()">Скасувати</button>
@@ -490,32 +437,26 @@ let allClubs = [];
 let newClubLogoFile = null;
 let settingsLogoFile = null;
 
-// ── Init ──────────────────────────────────────────────────────────────
 async function init() {
   currentUser = await requireAuth();
   if (!currentUser) return;
-
   document.getElementById('profile-email').textContent = currentUser.email;
   await loadProfile();
   await loadClubs();
 }
 
 async function loadProfile() {
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('profiles')
     .select('*, clubs(id, name, logo_url, admin_id)')
     .eq('id', currentUser.id)
     .single();
-
-  if (error || !data) { toast('Помилка завантаження профілю', 'error'); return; }
+  if (!data) return toast('Помилка завантаження профілю', 'error');
   currentProfile = data;
   myClub = data.clubs || null;
 
-  // Navbar
   const clubTag = myClub ? ` [${myClub.name}]` : '';
   document.getElementById('nav-username').textContent = data.username + clubTag;
-
-  // Profile tab
   document.getElementById('profile-avatar').textContent = initials(data.username);
   document.getElementById('profile-username').textContent = data.username;
   document.getElementById('edit-username').value = data.username;
@@ -526,15 +467,12 @@ async function loadProfile() {
     badge.style.display = 'inline-flex';
   }
 
-  // My club tab
   await renderMyClubTab();
 
-  // Admin section
   if (myClub && myClub.admin_id === currentUser.id) {
     document.getElementById('admin-section').style.display = 'block';
     await loadRequests();
     await loadMembers();
-    // Settings
     document.getElementById('settings-club-name').value = myClub.name;
     if (myClub.logo_url) {
       document.getElementById('settings-logo-preview').innerHTML = `<img src="${myClub.logo_url}" />`;
@@ -545,8 +483,6 @@ async function loadProfile() {
 async function renderMyClubTab() {
   const noClub = document.getElementById('no-club-state');
   const hasClub = document.getElementById('has-club-state');
-
-  // Check for pending request
   const { data: pendingReq } = await supabase
     .from('club_requests')
     .select('*, clubs(name)')
@@ -557,46 +493,26 @@ async function renderMyClubTab() {
   if (myClub) {
     noClub.style.display = 'none';
     hasClub.style.display = 'block';
-
     document.getElementById('my-club-name').textContent = myClub.name;
-
     const logoEl = document.getElementById('my-club-logo');
-    if (myClub.logo_url) {
-      logoEl.innerHTML = `<img src="${myClub.logo_url}" alt="${myClub.name}" />`;
-    }
-
+    if (myClub.logo_url) logoEl.innerHTML = `<img src="${myClub.logo_url}" alt="${myClub.name}" />`;
     const isAdmin = myClub.admin_id === currentUser.id;
     document.getElementById('my-club-role').textContent = isAdmin ? '👑 Адмін' : 'Учасник';
-
-    // Members count
-    const { count } = await supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .eq('club_id', myClub.id);
+    const { count } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('club_id', myClub.id);
     document.getElementById('my-club-members-count').textContent = `${count} учасників`;
-
   } else if (pendingReq) {
     noClub.style.display = 'none';
     hasClub.style.display = 'block';
     document.getElementById('pending-notice').style.display = 'block';
     document.getElementById('pending-club-name').textContent = pendingReq.clubs?.name;
-    document.getElementById('my-club-logo').style.display = 'none';
-    document.getElementById('my-club-name').style.display = 'none';
-    document.getElementById('my-club-role').style.display = 'none';
-    document.getElementById('my-club-members-count').style.display = 'none';
   } else {
     noClub.style.display = 'block';
     hasClub.style.display = 'none';
   }
 }
 
-// ── Clubs ─────────────────────────────────────────────────────────────
 async function loadClubs() {
-  const { data } = await supabase
-    .from('clubs')
-    .select('*, profiles(count)')
-    .order('created_at', { ascending: false });
-
+  const { data } = await supabase.from('clubs').select('*').order('created_at', { ascending: false });
   allClubs = data || [];
   renderClubsGrid(allClubs);
 }
@@ -607,38 +523,21 @@ function renderClubsGrid(clubs) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="icon">🏰</div><h3>Клубів поки немає</h3><p>Будь першим!</p></div>`;
     return;
   }
-
   grid.innerHTML = clubs.map(club => {
     const isMyClub = currentProfile?.club_id === club.id;
-    const logoHtml = club.logo_url
-      ? `<img src="${club.logo_url}" alt="${club.name}" />`
-      : `<span>🏰</span>`;
-
-    const { count: membersCount } = club.profiles?.[0] || { count: 0 };
-
+    const logoHtml = club.logo_url ? `<img src="${club.logo_url}" alt="${club.name}" />` : `<span>🏰</span>`;
     let actionBtn = '';
-    if (isMyClub) {
-      actionBtn = `<span class="badge badge-green">Мій клуб</span>`;
-    } else if (!currentProfile?.club_id) {
-      actionBtn = `<button class="btn btn-outline btn-sm" onclick="applyToClub('${club.id}','${club.name}')">Подати заявку</button>`;
-    } else {
-      actionBtn = `<span class="badge badge-gray">В іншому клубі</span>`;
-    }
-
+    if (isMyClub) actionBtn = `<span class="badge badge-green">Мій клуб</span>`;
+    else if (!currentProfile?.club_id) actionBtn = `<button class="btn btn-outline btn-sm" onclick="applyToClub('${club.id}','${club.name}')">Подати заявку</button>`;
+    else actionBtn = `<span class="badge badge-gray">В іншому клубі</span>`;
     return `
       <div class="club-card">
         <div class="club-card-header">
           <div class="club-card-logo">${logoHtml}</div>
-          <div>
-            <h3>${club.name}</h3>
-            <div class="club-card-meta">Засновано ${new Date(club.created_at).toLocaleDateString('uk-UA')}</div>
-          </div>
+          <div><h3>${club.name}</h3><div class="club-card-meta">${new Date(club.created_at).toLocaleDateString('uk-UA')}</div></div>
         </div>
         <hr class="divider" style="margin:12px 0;" />
-        <div class="club-card-footer">
-          <span class="text-sm text-muted">👥 учасників: <strong style="color:var(--white);">${membersCount || '—'}</strong></span>
-          ${actionBtn}
-        </div>
+        <div class="club-card-footer">${actionBtn}</div>
       </div>`;
   }).join('');
 }
@@ -648,243 +547,158 @@ window.filterClubs = () => {
   renderClubsGrid(allClubs.filter(c => c.name.toLowerCase().includes(q)));
 };
 
-// ── Apply to club ─────────────────────────────────────────────────────
 window.applyToClub = async (clubId, clubName) => {
-  showConfirm(
-    `Подати заявку до «${clubName}»?`,
-    'Адміністратор клубу розгляне твою заявку.',
-    async () => {
-      const { error } = await supabase.from('club_requests').insert({
-        club_id: clubId,
-        player_id: currentUser.id,
-      });
-      if (error) return toast('Помилка: ' + error.message, 'error');
-      toast('Заявку подано!', 'success');
-      await loadProfile();
-      await loadClubs();
-    }
-  );
+  showConfirm(`Подати заявку до «${clubName}»?`, 'Адміністратор розгляне твою заявку.', async () => {
+    const { error } = await supabase.from('club_requests').insert({ club_id: clubId, player_id: currentUser.id });
+    if (error) return toast('Помилка: ' + error.message, 'error');
+    toast('Заявку подано!', 'success');
+    await loadProfile();
+    await loadClubs();
+  });
 };
 
 window.cancelRequest = async () => {
-  const { error } = await supabase
-    .from('club_requests')
-    .delete()
-    .eq('player_id', currentUser.id)
-    .eq('status', 'pending');
-  if (error) return toast('Помилка', 'error');
+  await supabase.from('club_requests').delete().eq('player_id', currentUser.id).eq('status', 'pending');
   toast('Заявку скасовано', 'info');
   await loadProfile();
 };
 
-// ── Create club ───────────────────────────────────────────────────────
 window.openCreateClubModal = () => document.getElementById('create-club-modal').classList.add('active');
 window.closeCreateClubModal = () => document.getElementById('create-club-modal').classList.remove('active');
 
 window.previewNewClubLogo = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   newClubLogoFile = file;
-  const url = URL.createObjectURL(file);
-  document.getElementById('new-club-logo-preview').innerHTML = `<img src="${url}" />`;
+  document.getElementById('new-club-logo-preview').innerHTML = `<img src="${URL.createObjectURL(file)}" />`;
 };
 
 window.createClub = async () => {
   const name = document.getElementById('new-club-name').value.trim();
   if (!name) return toast('Введи назву клубу', 'error');
-
   let logo_url = null;
   if (newClubLogoFile) {
-    try {
-      logo_url = await uploadLogo(newClubLogoFile, `clubs/${Date.now()}_${newClubLogoFile.name}`);
-    } catch (e) { toast('Помилка завантаження лого', 'error'); return; }
+    try { logo_url = await uploadLogo(newClubLogoFile, `clubs/${Date.now()}_${newClubLogoFile.name}`); }
+    catch (e) { return toast('Помилка завантаження лого', 'error'); }
   }
-
-  const { data: club, error } = await supabase
-    .from('clubs')
-    .insert({ name, logo_url, admin_id: currentUser.id })
-    .select()
-    .single();
-
+  const { data: club, error } = await supabase.from('clubs').insert({ name, logo_url, admin_id: currentUser.id }).select().single();
   if (error) return toast('Помилка: ' + error.message, 'error');
-
-  // Set admin's club
   await supabase.from('profiles').update({ club_id: club.id }).eq('id', currentUser.id);
-
   toast('Клуб створено!', 'success');
   closeCreateClubModal();
   newClubLogoFile = null;
   document.getElementById('new-club-name').value = '';
   document.getElementById('new-club-logo-preview').innerHTML = '<span style="font-size:1.5rem;">🏰</span>';
-  await loadProfile();
-  await loadClubs();
-  showTab('my-club');
+  await loadProfile(); await loadClubs(); showTab('my-club');
 };
 
-// ── Requests (admin) ──────────────────────────────────────────────────
 async function loadRequests() {
   if (!myClub) return;
-  const { data } = await supabase
-    .from('club_requests')
-    .select('*, profiles(username)')
-    .eq('club_id', myClub.id)
-    .eq('status', 'pending')
-    .order('created_at');
-
+  const { data } = await supabase.from('club_requests').select('*, profiles(username)').eq('club_id', myClub.id).eq('status', 'pending').order('created_at');
   const list = document.getElementById('requests-list');
   const badge = document.getElementById('requests-badge');
-
   if (!data || !data.length) {
     list.innerHTML = `<div class="empty-state"><div class="icon">📬</div><h3>Немає нових заявок</h3></div>`;
-    badge.style.display = 'none';
-    return;
+    badge.style.display = 'none'; return;
   }
-
-  badge.textContent = data.length;
-  badge.style.display = 'inline-flex';
-
+  badge.textContent = data.length; badge.style.display = 'inline-flex';
   list.innerHTML = data.map(r => `
     <div class="request-item">
       <div style="display:flex;align-items:center;gap:12px;">
         <div class="avatar" style="width:36px;height:36px;font-size:0.9rem;">${initials(r.profiles?.username)}</div>
         <div>
-          <div style="font-family:var(--font-display);font-size:0.95rem;">${r.profiles?.username}</div>
-          <div class="text-sm text-muted">${new Date(r.created_at).toLocaleDateString('uk-UA')}</div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;color:#111;">${r.profiles?.username}</div>
+          <div class="text-sm" style="color:#888;">${new Date(r.created_at).toLocaleDateString('uk-UA')}</div>
         </div>
       </div>
       <div class="request-actions">
         <button class="btn btn-primary btn-sm" onclick="handleRequest('${r.id}','${r.player_id}','approved')">✓ Прийняти</button>
         <button class="btn btn-ghost btn-sm" onclick="handleRequest('${r.id}','${r.player_id}','rejected')">✗ Відхилити</button>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
 window.handleRequest = async (reqId, playerId, status) => {
-  const { error } = await supabase
-    .from('club_requests')
-    .update({ status })
-    .eq('id', reqId);
-  if (error) return toast('Помилка', 'error');
-
+  await supabase.from('club_requests').update({ status }).eq('id', reqId);
   if (status === 'approved') {
     await supabase.from('profiles').update({ club_id: myClub.id }).eq('id', playerId);
-    toast('Гравця прийнято до клубу!', 'success');
-  } else {
-    toast('Заявку відхилено', 'info');
-  }
-  await loadRequests();
-  await loadMembers();
+    toast('Гравця прийнято!', 'success');
+  } else { toast('Заявку відхилено', 'info'); }
+  await loadRequests(); await loadMembers();
 };
 
-// ── Members (admin) ───────────────────────────────────────────────────
 async function loadMembers() {
   if (!myClub) return;
-  const { data } = await supabase
-    .from('profiles')
-    .select('id, username')
-    .eq('club_id', myClub.id);
-
+  const { data } = await supabase.from('profiles').select('id, username').eq('club_id', myClub.id);
   const list = document.getElementById('members-list');
   const transferSelect = document.getElementById('transfer-select');
-
-  if (!data || !data.length) {
-    list.innerHTML = `<div class="empty-state"><div class="icon">👥</div><h3>Немає учасників</h3></div>`;
-    return;
-  }
-
+  if (!data || !data.length) { list.innerHTML = `<div class="empty-state"><div class="icon">👥</div><h3>Немає учасників</h3></div>`; return; }
   list.innerHTML = data.map(m => {
     const isAdmin = m.id === myClub.admin_id;
-    return `
-      <div class="member-item">
-        <div class="member-left">
-          <div class="avatar" style="width:36px;height:36px;font-size:0.9rem;">${initials(m.username)}</div>
-          <div>
-            <span style="font-family:var(--font-display);font-size:0.95rem;">${m.username}</span>
-            ${isAdmin ? '<span class="badge badge-red" style="margin-left:8px;">Адмін</span>' : ''}
-          </div>
-        </div>
-        ${!isAdmin ? `<button class="btn btn-ghost btn-sm" onclick="kickMember('${m.id}','${m.username}')">Видалити</button>` : ''}
+    return `<div class="member-item">
+      <div class="member-left">
+        <div class="avatar" style="width:36px;height:36px;font-size:0.9rem;">${initials(m.username)}</div>
+        <span style="font-family:var(--font-display);font-size:0.95rem;color:#111;">${m.username}</span>
+        ${isAdmin ? '<span class="badge badge-red" style="margin-left:8px;">Адмін</span>' : ''}
       </div>
-    `;
+      ${!isAdmin ? `<button class="btn btn-ghost btn-sm" onclick="kickMember('${m.id}','${m.username}')">Видалити</button>` : ''}
+    </div>`;
   }).join('');
-
-  // Transfer select — exclude self
   const others = data.filter(m => m.id !== currentUser.id);
-  transferSelect.innerHTML = `<option value="">— Вибери учасника —</option>` +
-    others.map(m => `<option value="${m.id}">${m.username}</option>`).join('');
+  transferSelect.innerHTML = `<option value="">— Вибери учасника —</option>` + others.map(m => `<option value="${m.id}">${m.username}</option>`).join('');
 }
 
-window.kickMember = (memberId, name) => {
+window.kickMember = (id, name) => {
   showConfirm(`Видалити «${name}» з клубу?`, 'Гравець втратить приналежність до клубу.', async () => {
-    await supabase.from('profiles').update({ club_id: null }).eq('id', memberId);
-    toast(`${name} видалено з клубу`, 'info');
-    await loadMembers();
+    await supabase.from('profiles').update({ club_id: null }).eq('id', id);
+    toast(`${name} видалено`, 'info'); await loadMembers();
   });
 };
 
-// ── Club settings ─────────────────────────────────────────────────────
 window.previewSettingsLogo = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   settingsLogoFile = file;
-  const url = URL.createObjectURL(file);
-  document.getElementById('settings-logo-preview').innerHTML = `<img src="${url}" />`;
+  document.getElementById('settings-logo-preview').innerHTML = `<img src="${URL.createObjectURL(file)}" />`;
 };
 
 window.saveClubSettings = async () => {
   if (!myClub) return;
   const name = document.getElementById('settings-club-name').value.trim();
   if (!name) return toast('Введи назву', 'error');
-
   let updates = { name };
   if (settingsLogoFile) {
-    try {
-      updates.logo_url = await uploadLogo(settingsLogoFile, `clubs/${myClub.id}_logo`);
-    } catch (e) { return toast('Помилка завантаження лого', 'error'); }
+    try { updates.logo_url = await uploadLogo(settingsLogoFile, `clubs/${myClub.id}_logo`); }
+    catch (e) { return toast('Помилка завантаження лого', 'error'); }
   }
-
   const { error } = await supabase.from('clubs').update(updates).eq('id', myClub.id);
   if (error) return toast('Помилка: ' + error.message, 'error');
-  toast('Зміни збережено!', 'success');
-  await loadProfile();
-  await loadClubs();
+  toast('Зміни збережено!', 'success'); await loadProfile(); await loadClubs();
 };
 
 window.transferAdmin = async () => {
   const newAdminId = document.getElementById('transfer-select').value;
   if (!newAdminId) return toast('Вибери учасника', 'error');
-
-  showConfirm('Передати права адміна?', 'Ти більше не будеш адміністратором клубу. Цю дію не можна скасувати.', async () => {
-    const { error } = await supabase.from('clubs').update({ admin_id: newAdminId }).eq('id', myClub.id);
-    if (error) return toast('Помилка', 'error');
-    toast('Права адміна передано!', 'success');
-    setTimeout(() => location.reload(), 1000);
+  showConfirm('Передати права адміна?', 'Ти більше не будеш адміністратором. Цю дію не можна скасувати.', async () => {
+    await supabase.from('clubs').update({ admin_id: newAdminId }).eq('id', myClub.id);
+    toast('Права передано!', 'success'); setTimeout(() => location.reload(), 1000);
   });
 };
 
-// ── Profile ───────────────────────────────────────────────────────────
 window.updateProfile = async () => {
   const username = document.getElementById('edit-username').value.trim();
   if (!username) return toast('Введи нік', 'error');
-
   const { error } = await supabase.from('profiles').update({ username }).eq('id', currentUser.id);
   if (error) return toast('Помилка: ' + error.message, 'error');
-  toast('Профіль оновлено!', 'success');
-  await loadProfile();
+  toast('Профіль оновлено!', 'success'); await loadProfile();
 };
 
 window.confirmLeaveClub = () => {
   if (!currentProfile?.club_id) return toast('Ти не в клубі', 'info');
   showConfirm('Покинути клуб?', 'Ти більше не будеш учасником цього клубу.', async () => {
     await supabase.from('profiles').update({ club_id: null }).eq('id', currentUser.id);
-    toast('Ти покинув клуб', 'info');
-    await loadProfile();
-    await loadClubs();
+    toast('Ти покинув клуб', 'info'); await loadProfile(); await loadClubs();
   });
 };
 
-// ── Tab navigation ─────────────────────────────────────────────────────
 window.showTab = (tab) => {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
@@ -892,13 +706,8 @@ window.showTab = (tab) => {
   document.querySelector(`[onclick="showTab('${tab}')"]`)?.classList.add('active');
 };
 
-// ── Sign out ───────────────────────────────────────────────────────────
-window.handleSignOut = async () => {
-  await supabase.auth.signOut();
-  window.location.href = 'index.html';
-};
+window.handleSignOut = async () => { await supabase.auth.signOut(); window.location.href = 'index.html'; };
 
-// ── Confirm helper ────────────────────────────────────────────────────
 window.showConfirm = (title, text, onOk) => {
   document.getElementById('confirm-title').textContent = title;
   document.getElementById('confirm-text').textContent = text;
@@ -907,11 +716,8 @@ window.showConfirm = (title, text, onOk) => {
 };
 window.closeConfirm = () => document.getElementById('confirm-modal').classList.remove('active');
 
-// Close modals on overlay click
-['create-club-modal', 'confirm-modal'].forEach(id => {
-  document.getElementById(id).addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) e.target.classList.remove('active');
-  });
+['create-club-modal','confirm-modal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => { if (e.target === e.currentTarget) e.target.classList.remove('active'); });
 });
 
 init();
