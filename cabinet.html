@@ -447,7 +447,7 @@ async function renderMyClubTab() {
   const { data: pendingCreate } = await supabase.from('club_creation_requests')
     .select('*').eq('player_id', currentUser.id).eq('status', 'pending').maybeSingle();
 
-  if (myClub) {
+  if (myClub && myClubRole) {
     noClub.style.display = 'none'; hasClub.style.display = 'block';
     document.getElementById('my-club-name').textContent = myClub.name;
     document.getElementById('my-club-desc').textContent = myClub.description || '';
