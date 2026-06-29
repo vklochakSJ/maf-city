@@ -446,12 +446,22 @@ async function init() {
 }
 
 async function loadProfile() {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('profiles')
     .select('*, clubs(id, name, logo_url, admin_id)')
     .eq('id', currentUser.id)
-    .single();
-  if (!data) return toast('Помилка завантаження профілю', 'error');
+    .maybeSingle();
+  if (error) return toast('Помилка: ' + error.message, 'error');
+  if (!data) {
+    // Profile missing — create it
+    const { data: newProfile } = await supabase
+      .from('profiles')
+      .insert({ id: currentUser.id, username: currentUser.email.split('@')[0] })
+      .select('*, clubs(id, name, logo_url, admin_id)')
+      .maybeSingle();
+    if (!newProfile) return toast('Не вдалось створити профіль', 'error');
+    return loadProfile();
+  }
   currentProfile = data;
   myClub = data.clubs || null;
 
