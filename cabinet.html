@@ -609,9 +609,12 @@ async function loadRequests() {
 window.handleJoinRequest = async (reqId, playerId, status) => {
   await supabase.from('club_requests').update({ status }).eq('id', reqId);
   if (status === 'approved') {
-    await supabase.from('profiles').update({ club_id: myClub.id }).eq('id', playerId);
-    await supabase.from('club_members').insert({ club_id: myClub.id, player_id: playerId, role: 'member' });
-    toast('Гравця прийнято!', 'success');
+    const { error: e1 } = await supabase.from('profiles').update({ club_id: myClub.id }).eq('id', playerId);
+    const { error: e2 } = await supabase.from('club_members').insert({ club_id: myClub.id, player_id: playerId, role: 'member' });
+    if (e1) console.error('profile update error:', e1);
+    if (e2) console.error('club_members insert error:', e2);
+    if (e1 || e2) toast('Гравця частково додано, перевір дані', 'error');
+    else toast('Гравця прийнято!', 'success');
   } else toast('Заявку відхилено', 'info');
   await loadRequests();
   if (myClubRole === 'owner') await loadMembers();
